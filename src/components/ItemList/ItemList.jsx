@@ -3,11 +3,7 @@ import { Filter } from "./Filter"
 
 const productFiltered = ({product, filterState, handleFilterChange}) => (
     <>
-        <div className="">
-            <label>Buscar</label>
-            <input className="form-control" type="text" value={filterState} onChange={handleFilterChange} />
-        </div>
-        <br />
+
 
         {
             filterState === '' ? 
@@ -41,8 +37,9 @@ const productFiltered = ({product, filterState, handleFilterChange}) => (
                                             </div>
                                             <div className="card-footer">
                                                 
-                                                <button className="btn btn-outline-dark w-100">Detalle</button>
-                                                
+                                            <Link to={`/detail/${product.id}`}>
+                                                    <button className="btn btn-outline-dark w-100">Detalle</button>
+                                                    </Link>
 
                                             </div>
                                         </div>

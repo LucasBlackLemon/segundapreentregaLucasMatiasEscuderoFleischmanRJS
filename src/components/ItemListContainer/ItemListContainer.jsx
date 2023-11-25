@@ -1,63 +1,76 @@
 import { useEffect, useState } from 'react' ;
-import { mfetch } from '../../helpers/mfetch';
-import { useParams } from "react-router-dom" ;
+import { Link, useParams } from "react-router-dom" ;
 import '../../components/ItemListContainer/ItemListContainer.css';
+import Spinner from 'react-bootstrap/Spinner';
+import { collection, doc, getDoc, getDocs, getFirestore, limit, orderBy, query, where } from 'firebase/firestore'
 
-
+export const Loading = () => {
+  return <h2>  <Spinner animation="border" variant="danger" /> Cargando</h2>
+}
 
   function ItemListContainer({greeting = 'saludando'}) {
-    const [product, setProducts] = useState([])
+    const [products, setProducts] = useState([])
     const [loading, setLoading] = useState (true)
     const {cid} = useParams()
 
-    useEffect(()=>{
-      if (cid) {
-        mfetch()
-        .then(resultado => setProducts(resultado.filter(product => product.category === cid)))
-        .catch(error => console.log(error))
-        .finally(()=> setLoading(false))
+  useEffect(()=>{
+    const dbFirestore     = getFirestore()
+    const queryCollection = collection(dbFirestore, 'products') 
+    
+    if (cid) {
 
-      }else{
-        mfetch()
-        .then(resultado => setProducts(resultado))
-        .catch(error => console.log(error))
-        .finally(()=> setLoading(false))
-      }
+        const queryFilter     = query(queryCollection, where('category', '==', cid))
+            
+        
+        getDocs(queryFilter)
+        .then(res =>{ setProducts( res.docs.map(product => ({ id: product.id , ...product.data() }) ) )})
+        .catch(err => console.log(err)) 
+        .finally(() => setLoading(false))
+        
+    }else{ 
+                    
+        getDocs(queryCollection)
+        .then(res => setProducts( res.docs.map(product => ({ id: product.id , ...product.data() }) ) ))
+        .catch(err => console.log(err)) 
+        .finally(() => setLoading(false))
+    }
+}, [cid])
 
-    }, [cid] )
+
 
     
 return(
-  
+
         <div className='body'>
-        {   loading ? <h2>Cargando...</h2> 
+          
+        {   loading ? 
+                  <Loading/>
                 :
-                product.map(product => 
+                  products.map(product => 
                     <div key={product.id} className="card w-25 flex" id='cards'>
                           <img src={product.imageUrl} className="card-img-top"/>
                     <div className="card-body">
             
                             <p>Nombre: {product.name}</p>
                             <p>Categoria: {product.category}</p>
-                            <p>Precio: {product.price}</p>
+                            <p>Precio: ${product.price}</p>
 
                     </div>
                             <div className="card-footer">
-                                <button className="btn btn-outline-dark w-100">Detalle</button>
+                            <Link to={`/detail/${product.id}`}>
+                                    <button  className="btn btn-outline-danger w-100">Detalle</button>
+                            </Link>
+                            
                             </div>
-                    </div>
+                    </div>,
+            
         )}
         
-            
 
   </div>
   
 )
 }
-
-
-
-
 
 
 export default ItemListContainer

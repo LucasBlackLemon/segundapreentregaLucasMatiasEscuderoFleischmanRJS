@@ -15,7 +15,7 @@ function NavBar() {
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary-" id="fondoNavBar">
         <Container>
         
-        <Navbar.Brand href="#home">
+        <Navbar.Brand className="title" href="#home">
             <img className="pokeball" src={pokeball}/>
             Tienda Pokémon
             </Navbar.Brand>
@@ -23,15 +23,15 @@ function NavBar() {
         <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
                 <NavLink  className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to="/" >Inicio</NavLink>
-                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/peluches'  >Peluches</NavLink>
-                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/remeras' >Remeras</NavLink>
-                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/buzos'  >Buzos</NavLink>
-                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/pijamas' >Pijamas</NavLink>
+                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/Peluches'  >Peluches</NavLink>
+                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/Remeras' >Remeras</NavLink>
+                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/Buzos'  >Buzos</NavLink>
+                <NavLink className={({isActive})=> isActive ? 'btn btn-outline-danger' : 'btn'} to='/category/Pijamas' >Pijamas</NavLink>
             </Nav>
 
 
             <Nav>
-                <Nav.Link href="#deets">📞 Contacto</Nav.Link>
+                <Nav.Link className="phone" href="#deets">📞 Contacto</Nav.Link>
             </Nav>
 
 

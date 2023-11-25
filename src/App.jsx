@@ -1,27 +1,31 @@
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 import NavBar from './components/NavBar/NavBar'
 import ItemListContainer from './components/ItemListContainer/ItemListContainer'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
+import ItemCounter from './components/ItemCounter/ItemCounter';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { CartContextProvider } from './Context/CartContext';
+import { CartContainer } from './components/CartContainer/CartContainer';
 
 function App() {
-const [count, setCount] = useState(0)
-
     return ( 
+            <CartContextProvider>
+                    <Router>           
+                        <NavBar />
+                        <Routes>
+                            <Route path='/' element={<ItemListContainer/> } /> 
+                            <Route path='/category/:cid' element={<ItemListContainer/> } /> 
+                            <Route path='/detail/:pid' element={<ItemDetailContainer/> } />
+                            <Route path='/cart' element={<CartContainer/>}/>
+                        
 
-    <Router>           
-        <NavBar />
-        <Routes>
-            <Route path='/' element={<ItemListContainer greeting='saludo desde app, bienvenidos' /> } /> 
-            <Route path='/category/:cid' element={<ItemListContainer greeting='saludo desde app, bienvenidos' /> } /> 
-            <Route path='/detail/:pid' element={<ItemDetailContainer /> } />
-            
-
-            <Route path='*' element={<Navigate to='/' />} />                  
-        </Routes>
-    </Router>
+                            {/* <Route path='*' element={<Navigate to='/' />} />                   */}
+                        </Routes>
+                    </Router>
+            </CartContextProvider>
 )
 }
 
